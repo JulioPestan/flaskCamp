@@ -1,15 +1,36 @@
-from estudo import app, db  #--> importei o db para gravar dados no banco de dados 
-from flask import render_template, url_for,request #--> usei o request para pegar dados do formulário, GET e POST
+from estudo import app, db  
+from flask import render_template, url_for,request, redirect
 
-from estudo.models import Contato #--> importei a classe Contato para instaciar ela, criei um objeto para adicionar no banco
+from estudo.models import Contato
+from estudo.forms import ContatoForm
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    usuario = 'julio'
+    idade = 39
 
-#criação de uma rota que recebe requisições GET e POST 
+    context = {
+        'usuario': usuario,
+        'idade': idade
+    }
+    return render_template('index.html', context = context)
+
 @app.route('/contato/', methods=['GET','POST'])
-def novapag():
+def contato():
+    form = ContatoForm()
+    context = {}
+    if form.validate_on_submit():
+        form.save()
+        return redirect(url_for('index'))
+
+    return render_template('contato.html', context = context, form=form)
+
+
+
+#criação de uma rota que recebe requisições GET e POST
+#formato não recomendado. 
+@app.route('/contato_old/', methods=['GET','POST'])
+def contato_old():
     context = {}
     if request.method == 'GET':
         pesquisa = request.args.get('pesquisa')
@@ -33,6 +54,6 @@ def novapag():
         db.session.add(contato) 
         db.session.commit()
 
-    return render_template('contato.html', context = context)
+    return render_template('contato_old.html', context = context)
 
     

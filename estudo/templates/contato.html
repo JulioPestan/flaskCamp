@@ -9,55 +9,29 @@
 <body>
 
     <div class="container">
-        <div class = "row mt-4">
-            <h3>Formulário GET</h3>
-        </div>
-            <form action="" method="get" class="row mt-4">
-                <div class="col-9">
-                    Digite algo para pesquisa
-                    <input type="text" name="pesquisa" id="" class="form-control">
-                </div>
-                <div class="col-3">
-                    <button type="submit" class="btn btn-primary mt-4 col-12">Pesquisar</button>
-                </div>
-            </form>
 
-            <p>Você pesquisou: {{context['pesquisa']}}</p>
-            <hr>
-            <hr>
-
-            <div class="row">
-                <h3>Formulário POST</h3>
+            <div class="row mt-4" >
+                <h3>Envio de Contato</h3>
             </div>
 
-                <form action="" method="post" class="row mt-4">
-                    <div class="col-6">
-                        Nome
-                        <input type="text" name="nome" id="" class="form-control" required>
-                    </div>
+                <form action="" method="post" class="row mt-4 p-4 rounde border shadow">
+                    {{ form.csrf_token }}
 
-                    <div class="col-6">
-                        E-mail
-                        <input type="text" name="email" id="" class="form-control" required>
-                    </div>
+                    {{ form.nome.label()}}
+                    {{ form.nome(class="form-control") }}
 
-                    <div class="col-12">
-                        Assunto
-                        <input type="text" name="assunto" id="" class="form-control" required>
-                    </div>
+                    {{ form.email.label()}}
+                    {{ form.email(class="form-control") }}
 
-                    <div class="col-12">
-                        Mensagem
-                        <input type="text" name="mensagem" id="" class="form-control" required>
-                    </div>
+                    {{ form.assunto.label()}}
+                    {{ form.assunto(class="form-control") }}
 
-                    <div class="col-12">
-                        <button type="submit" class="btn btn-primary mt-4 col-12">Salvar</button>
-                    </div>
+                    {{ form.mensagem.label()}}
+                    {{ form.mensagem(class="form-control") }}
+
+                    {{ form.btnSubmit(class="btn btn-primary col-12 mt-3") }}
                 </form>
-            </div>
-
-
+            
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
