@@ -1,5 +1,5 @@
 from estudo import app, db  
-from flask import render_template, url_for,request, redirect
+from flask import render_template, url_for, request, redirect
 
 from estudo.models import Contato
 from estudo.forms import ContatoForm
@@ -25,6 +25,8 @@ def contato():
 
     return render_template('contato.html', context = context, form=form)
 
+
+
 @app.route('/contato/lista/')
 def contatoLista():
 
@@ -32,18 +34,13 @@ def contatoLista():
         pesquisa = request.args.get('pesquisa', '')
 
     dados = Contato.query.order_by('nome')
-    
+   #dados = Contato.query.all()
+
     if pesquisa != '':
         dados = dados.filter_by(nome=pesquisa)
-
-    context={'dados': dados}
+    print(dados.all())
+    context={'dados': dados.all()}
     return render_template('contato_lista.html', context=context)
-
-
-
-
-
-
 
 
 #criação de uma rota que recebe requisições GET e POST
@@ -77,7 +74,7 @@ def contato_old():
 
 # @app.route('/contato/lista/')
 # def contatoLista():
-
+#     dados = Contato.query.all()
 #     print(dados)
 #     context={'dados': dados}
 #     return render_template('contato_lista.html', context=context)
