@@ -25,6 +25,25 @@ def contato():
 
     return render_template('contato.html', context = context, form=form)
 
+@app.route('/contato/lista/')
+def contatoLista():
+
+    if request.method == 'GET':
+        pesquisa = request.args.get('pesquisa', '')
+
+    dados = Contato.query.order_by('nome')
+    
+    if pesquisa != '':
+        dados = dados.filter_by(nome=pesquisa)
+
+    context={'dados': dados}
+    return render_template('contato_lista.html', context=context)
+
+
+
+
+
+
 
 
 #criação de uma rota que recebe requisições GET e POST
@@ -56,4 +75,9 @@ def contato_old():
 
     return render_template('contato_old.html', context = context)
 
-    
+# @app.route('/contato/lista/')
+# def contatoLista():
+
+#     print(dados)
+#     context={'dados': dados}
+#     return render_template('contato_lista.html', context=context)

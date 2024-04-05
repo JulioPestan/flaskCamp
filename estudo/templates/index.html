@@ -14,7 +14,10 @@
     <div>
         <p>Bem-Vindo {{context.usuario}} a aula flask</p>
         <p><b>Idade:</b> {{ context.idade}}</p>
+
         <a href="{{ url_for('contato')}}">Contato</a>
+        <a href="{{ url_for('contatoLista')}}">Contato - lista</a>
+
     </div>
 </body>
 </html>
