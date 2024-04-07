@@ -1,28 +1,39 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <h3>Estudo Flask</h3>
-        <h5>@campcodeBrasil</h5>
-    </div>
-
+<div class="container">
+    
     {% include 'nav.html' %}
 
+    <hr>
+    
     <div>
-        <p>Bem-Vindo {{context.usuario}} a aula flask</p>
-        <p><b>Idade:</b> {{ context.idade}}</p>
-
         {% if current_user.is_authenticated %}
         <span class="btn btn-primary">{{ current_user.nome }} {{ current_user.sobrenome }}</span>
-        <a href="" class="btn btn-danger">Sair</a>
-
+        <a href="{{url_for('logout')}}" class="btn btn-danger">Sair</a>
         {% else %}
-        <a href="{{ url_for('cadastro')}}"class = "class= btn btn-primary">Faça seu cadastro</a>
+
+        <form action="" method="post" class="row mt-4 p-4 rounde border shadow">
+            <h3>Faça seu Login</h3>
+            {{ form.csrf_token }}
+
+            {{ form.email.label()}}
+            {{ form.email(class="form-control") }}
+
+            {{ form.senha.label()}}
+            {{ form.senha(class="form-control") }}
+
+            {{ form.btnSubmit(class="btn btn-primary col-12 mt-3") }}
+
+            <div class="col-12 mt-4">Não tem cadastro?<a href="{{ url_for('cadastro')}}">Clique aqui e faça seu cadastro</a></div>
+        </form>
+
+        
         {% endif %}
         <hr>
 
         <img src="{{ url_for('static', filename='img/Logo.png')}}">
-
        
     </div>
+</div>
 {% endblock %}
