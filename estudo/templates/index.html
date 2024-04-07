@@ -12,6 +12,15 @@
         <p>Bem-Vindo {{context.usuario}} a aula flask</p>
         <p><b>Idade:</b> {{ context.idade}}</p>
 
+        {% if current_user.is_authenticated %}
+        <span class="btn btn-primary">{{ current_user.nome }} {{ current_user.sobrenome }}</span>
+        <a href="" class="btn btn-danger">Sair</a>
+
+        {% else %}
+        <a href="{{ url_for('cadastro')}}"class = "class= btn btn-primary">Faça seu cadastro</a>
+        {% endif %}
+        <hr>
+
         <img src="{{ url_for('static', filename='img/Logo.png')}}">
 
        

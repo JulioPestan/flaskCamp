@@ -19,7 +19,7 @@ class UserForm(FlaskForm):
         
     def save(self):
         senha = bcrypt.generate_password_hash(self.senha.data.encode('utf-8'))
-        user = user(
+        user = User(
             nome = self.nome.data,
             sobrenome = self.sobrenome.data,
             email = self.email.data,
@@ -31,9 +31,6 @@ class UserForm(FlaskForm):
         return user
 
         
-
-
-
 class ContatoForm(FlaskForm):
     nome = StringField('Nome', validators=[DataRequired()])
     email = StringField('E-mail', validators=[DataRequired(),Email()])

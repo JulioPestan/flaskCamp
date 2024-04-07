@@ -2,7 +2,9 @@ from estudo import app, db
 from flask import render_template, url_for, request, redirect
 
 from estudo.models import Contato
-from estudo.forms import ContatoForm
+from estudo.forms import ContatoForm, UserForm
+
+from flask_login import login_user, logout_user, current_user
 
 
 @app.route('/')
@@ -10,11 +12,27 @@ def index():
     usuario = 'julio'
     idade = 39
 
+    print(current_user.is_authenticated)
+
     context = {
         'usuario': usuario,
         'idade': idade
     }
     return render_template('index.html', context = context)
+
+
+
+@app.route('/cadastro/', methods=['GET','POST'])
+def cadastro():
+    form = UserForm()
+    if form.validate_on_submit():
+        user = form.save()
+        login_user(user, remember=True)
+        return redirect(url_for('index'))
+    return render_template('cadastro.html', form=form)
+
+
+
 
 @app.route('/contato/', methods=['GET','POST'])
 def contato():
