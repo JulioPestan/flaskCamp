@@ -1,29 +1,21 @@
 from estudo import app, db  
 from flask import render_template, url_for, request, redirect
 
-from estudo.models import Contato
-from estudo.forms import ContatoForm, UserForm, LoginForm
+from estudo.models import Contato, Post
+from estudo.forms import ContatoForm, UserForm, LoginForm, PostForm
 
 from flask_login import login_user, logout_user, current_user
 
 
 @app.route('/', methods=['GET','POST'])
 def index():
-    usuario = 'julio'
-    idade = 39
-
+    
     form = LoginForm()
-
     if form.validate_on_submit():
         user = form.login()
         login_user(user, remember=True)
-    # print(current_user.is_authenticated)
-
-    context = {
-        'usuario': usuario,
-        'idade': idade
-    }
-    return render_template('index.html', context = context, form=form)
+   
+    return render_template('index.html',  form=form)
 
 
 
@@ -42,7 +34,20 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/post/novo/', methods=['GET','POST'])
+def PostNovo():
+    form = PostForm()
+    if form.validate_on_submit():
+        form.save(current_user.id)
+        return redirect(url_for('index'))
+    return render_template('post_novo.html', form=form)
 
+@app.route('/post/lista/')
+def PostLista():
+    posts = Post.query.all()
+
+    print(current_user.posts)
+    return render_template('post_lista.html', posts=posts)
 
 
 @app.route('/contato/', methods=['GET','POST'])
