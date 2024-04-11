@@ -2,7 +2,7 @@ from estudo import app, db
 from flask import render_template, url_for, request, redirect
 
 from estudo.models import Contato, Post
-from estudo.forms import ContatoForm, UserForm, LoginForm, PostForm
+from estudo.forms import ContatoForm, UserForm, LoginForm, PostForm, PostComentarioForm
 
 from flask_login import login_user, logout_user, current_user
 
@@ -49,6 +49,14 @@ def PostLista():
     print(current_user.posts)
     return render_template('post_lista.html', posts=posts)
 
+@app.route('/post/<int:id>/', methods=['GET','POST'])
+def PostDetail(id):
+    post = Post.query.get(id)
+    form = PostComentarioForm()
+    if form.validate_on_submit():
+        form.save(current_user.id, id)
+        return redirect(url_for('PostDetail', id=id))
+    return render_template('post.html', post=post, form=form)
 
 @app.route('/contato/', methods=['GET','POST'])
 def contato():
